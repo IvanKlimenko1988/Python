@@ -34,24 +34,29 @@
 # except:
 #     print('Введите вещественное число используя "." или целое число!')
 
+##################################
 
-
-
-start_number = input('Введите вещественное или целое число: ')
-print(start_number.isdigit())
-
-float_digit = start_number.isdigit()
-if float_digit == False:
-    start_number = float(start_number)
-    print(start_number)		
-    while float_digit != True:
-        start_number *= 10
-        start_number = int(start_number)
+def sum_digits(number):
+    float_digit = start_number.isdigit()
+    if float_digit == False:
+        new_num = int(start_number.replace('.',''))
         print(start_number)
-        is_int = isinstance(start_number, int)
-        if is_int == True:
-            float_digit == True
-            
+        current = new_num
+        sum = 0
+        while current > 0:
+            sum += current % 10
+            current //= 10
+        print(f'Сумма цифр числа {start_number} = {sum}')
+    else:
+        current = int(start_number)
+        sum = 0
+        while current > 0:
+            sum += current % 10
+            current //= 10
+        print(f'Сумма цифр числа {start_number} = {sum}')
 
-print(float_digit)
-
+try:
+    start_number = input('Введите вещественное или целое число: ')
+    sum_digits(start_number)
+except:
+    print('Введите вещественное число используя "." или целое число!')
