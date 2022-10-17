@@ -10,5 +10,9 @@ def factorial(num):
         result_list.append(factorial)
     return result_list
 
-number = int(input('Введите число: '))
-print(f'{number}! = {factorial(number)}')
+
+try:
+    number = int(input('Введите целое число: '))
+    print(f'{number}! = {factorial(number)}')
+except:
+    print('Введите целое число')
