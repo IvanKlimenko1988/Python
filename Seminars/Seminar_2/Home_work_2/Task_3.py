@@ -2,31 +2,23 @@
 # а программа - определять количество вхождений одной строки в другой.
 # COUNT или FIND нельзя юзать! говорил же на семинаре.
 
-str_1 = input('Введите первую строку: ')
-str_2 = input('Введите вторую строку: ')
+def find_occurr(string1, string2):
+    count = 0
+    if string2 in string1:
+        for i in range(len(string1)):
+            if string1[i] == string2[0]:
+                if string1[i:i + len(string2)] == string2:
+                    count += 1
+    print(f'Строка "{string2}" содержится в строке "{string1}" {count} раз')
 
-str_3 = str_1.lower()
-str_4 = str_2.lower()
-
-
-print(str_3)
-print(str_4)
-
-# str_1 = 'Привет меня зовут Ваня'
-# str_2 = 'Привет меня зовут Катя'
-# print(str_1)
-# print(str_2)
-count = 0
-list_1 = []
-list_2 = []
-lentgh = 0
-while lentgh < len(str_4):
-    if str_4 in str_3:
-        count +=1
-        lentgh +=1
+try:
+    string1 = input('Введите первую строку: ').lower()
+    string2 = input('Введите вторую строку: ').lower()
+    if len(string1) > len(string2):
+        find_occurr(string1, string2)
     else:
-        lentgh +=1
-print(count)
-
+        find_occurr(string2, string1)
+except:
+    print('Введите что-нибудь')
 
 
