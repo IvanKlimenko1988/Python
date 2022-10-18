@@ -27,6 +27,6 @@ try:
     point_b = create_point(space_size)
     res = find_distance(point_a, point_b)
 
-    print(f'Расстояние между точками А и В: {round(res, 2)}')
+    print(f'Расстояние в {space_size}D пространстве между точками А и В: {round(res, 2)}')
 except:
     print('Введите число!')
