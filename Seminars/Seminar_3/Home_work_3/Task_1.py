@@ -6,7 +6,7 @@ def create_list(size):
     list = [0] * size
     for i in range(size):
         try:
-            list[i] = int(input(f"Введите число{i+1}: "))
+            list[i] = int(input(f"Введите число {i+1}: "))
         except:
             print('Введите целое число')
     return list
