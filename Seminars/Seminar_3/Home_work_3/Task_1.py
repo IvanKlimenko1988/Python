@@ -23,7 +23,7 @@ try:
     list_1 = create_list(size)
     print(list_1)
     result = find_sum_list(list_1)
-    print(f'Сумма элементов в на нечётных позициях: {result}')
+    print(f'Сумма элементов на нечётных позициях: {result}')
 except:
     print('Введите числа!')
     

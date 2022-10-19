@@ -4,37 +4,37 @@
 
 from fractions import Fraction
 
-
 def create_list(size):
     list = [0] * size
     for i in range(size):
         try:
-            list[i] = float(input(f'Введите значение {i + 1}: '))
+            list[i] = float(input(f'Введите вещественное число {i + 1}: '))
         except:
-            print('Введите число')
+            print('Введите число, используя "." !')
     return list
 
-list_1 = create_list(5)
-print(list_1)
+def diff_max_min_fract(list):
+    for i in range(len(list)):
+        list[i] = list[i] - int(list[i])        # Отделяем дробную часть от числа 
+        list[i] = Fraction.from_float(list[i])
+    min = list[0]
+    max = list[0]
+    for i in range(len(list)-1):
+        if min > list[i + 1]:
+            min = list[i + 1]
+        else:
+            max = list[i + 1]
+    fract = max - min
+    result = fract.numerator / fract.denominator # Получаем вещественное число
+    return result
 
+try:
+    size = int(input('Введите размер списка: '))
+    list_1 = create_list(size)
+    print(f'Исходный список: {list_1}')
+    res = diff_max_min_fract(list_1)
+    print(f'Разница между максимальным и минимальным \
+значением дробной части элементов: {round(res, 3)}')
 
-
-
-for i in range(len(list_1)):
-    list_1[i] = list_1[i] - int(list_1[i])
-    list_1[i] = Fraction.from_float(list_1[i])
-  
-    
-min = list_1[0]    
-max = list_1[0]    
-for i in range(len(list_1)-1):
-    if min > list_1[i + 1]:
-        min = list_1[i + 1]
-    else:
-        max = list_1[i + 1]
-
-print(list_1)
-print()
-
-print(min)
-print(max)
+except:
+    print('Введите вещественное число используя "." или целое число!')
