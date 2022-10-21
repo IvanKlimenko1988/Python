@@ -17,6 +17,7 @@ def dec_to_bin(num):
 try:
     print('"\Перевод десятичного числа в двоичное/"')
     number = int(input('Введите целое число: '))
+    print(f'Число {number} в двоичной форме: ')
     dec_to_bin(number)
 except:
     print('Введите целое число!')

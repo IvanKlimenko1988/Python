@@ -13,17 +13,25 @@ def create_list(size):
 
 def find_sum_list(list):
     sum = 0
+    odd = []
     for elem in range(1,len(list_1)):
         if elem % 2 != 0:
+            odd.append(list_1[elem])
             sum += list_1[elem]
+
+    print('На нечётных позициях элементы:')
+    for i in range(len(odd)):
+        print(odd[i], end= ' ')
+    print()
     return sum
 
-try:    
+try: 
+    print('Найти сумму элементвов списка на нечётных позициях')   
     size = int(input('Введите размер списка: '))
     list_1 = create_list(size)
     print(list_1)
     result = find_sum_list(list_1)
-    print(f'Сумма элементов на нечётных позициях: {result}')
+    print(f'Ответ: {result}')
 except:
     print('Введите числа!')
     
