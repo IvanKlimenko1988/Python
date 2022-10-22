@@ -1,40 +1,37 @@
 # Задайте натуральное число N. Напишите программу, которая составит список простых множителей числа N.
 
+def simple_num(n):
+    if n > 1:
+        for i in range(2, int(n/2)+1):
+            if (n % i) == 0:
+                return False
+        else:
+            return True
 
 
+def list_prime_mult(n):
 
-n = int(input('Введите натуральное число: '))
-res = []
-if n > 0:
-# Условия делимости
-# 1-если число чётное, то делитель 2:
-    prostoe = 2
-    if n % 2 == 0:
-        a = n
-        count = 0
-        while n > 1:
-            if a % 2 == 0:
-                a = a / prostoe
-                res.append(int(a))
-                n /= prostoe
-                count += 1
+    if simple_num(n) == False:
+        res = n
+        for i in range(2, n):
+            while res > 1:
+                if res % i == 0:
+                    res //= i
+                    list.append(i)
+                else:
+                    break
             else:
                 break
-        print(res)
-        print(count)
-    else: 
-        prostoe +=1
-        print('Число нечётное')
-else:
-    print('Введите целое число N > 0')
+        print(f'Список простых множетелей числа: {n}')
+        print(f'*'.join(map(str, list)))
+    else:
+        print('Простое число')
 
 
-# sum = 0
-# while n > 0:
-#     sum += n % 10
-#     n //= 10
-# print(sum)
-# if n / n == 1 and n / 1 == n:
-#     print('простое')
-# else:
-#     print('нет')
+list = []
+
+try:
+    n = int(input('Введите натуральное число: '))
+    list_prime_mult(n)
+except:
+    print('Введите натуральное число!')
