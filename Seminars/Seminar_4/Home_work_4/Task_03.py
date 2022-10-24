@@ -7,11 +7,11 @@
 from random import randint, random
 
 
-k = int(input('Задайте степень:'))
+k = int(input('Задайте степень: '))
 
 list_ratio = []
 while k > 0:
-    list_ratio.append(randint(0, 100))
+    list_ratio.append(randint(0, 1))
     list_ratio.append('x')
     list_ratio.append('^')
     list_ratio.append(k)
@@ -21,5 +21,3 @@ while k > 0:
 list_ratio.append(randint(0, 100))
 list_ratio.append(' = 0')
 print(''.join(map(str, list_ratio)))
-
-
