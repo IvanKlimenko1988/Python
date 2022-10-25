@@ -12,6 +12,7 @@ def create_ratio_list(num):
         num -= 1
     return ratio
 
+
 def create_polynomial(ratio_list, k):
     polynomial = []
 
@@ -47,19 +48,14 @@ def create_polynomial(ratio_list, k):
     return polynomial
 
 
-k = int(input('Задайте степень:'))
-
-list_ratio = []
-while k > 0:
-    list_ratio.append(randint(0, 100))
-    list_ratio.append('x')
-    list_ratio.append('^')
-    list_ratio.append(k)
-    list_ratio.append(' + ')
-    k -= 1
-
-list_ratio.append(randint(0, 100))
-list_ratio.append(' = 0')
-print(''.join(map(str, list_ratio)))
-
-
+try:
+    print("Cоздание случайного многочлена")
+    k = int(input("Задайте натуральную степень 'k': "))
+    if k > 0:
+        ratio_array = create_ratio_list(k)
+        result_polymomial = create_polynomial(ratio_array, k)
+        print(''.join(map(str, result_polymomial)))
+    else:
+        exit()
+except:
+    print("Введите целое число 'k' > 0")
