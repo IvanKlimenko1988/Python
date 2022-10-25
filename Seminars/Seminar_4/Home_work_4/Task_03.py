@@ -12,6 +12,10 @@ def create_ratio_list(num):
         num -= 1
     return ratio
 
+def save(str):
+    with open('Многочлен.txt', "w") as data:
+        data.write(str)
+        print('Запись прошла успешно!')
 
 def create_polynomial(ratio_list, k):
     polynomial = []
@@ -54,7 +58,8 @@ try:
     if k > 0:
         ratio_array = create_ratio_list(k)
         result_polymomial = create_polynomial(ratio_array, k)
-        print(''.join(map(str, result_polymomial)))
+        result_string = ''.join(map(str, result_polymomial))
+        save(result_string)
     else:
         exit()
 except:
