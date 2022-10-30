@@ -24,24 +24,32 @@ def rle_compression(text):
 def rle_recovery(text):
     res_str = ''
     num_filtr = re.compile('-?\d+')
-    list_num = list(map(int, num_filtr.findall(code)))
+    list_num = list(map(int, num_filtr.findall(text)))
     j = 0
-    for i in range(len(code)):
-        if not code[i].isdigit():
-            res_str += str(code[i]) * list_num[j]
+    for i in range(len(text)):
+        if not text[i].isdigit():
+            res_str += str(text[i]) * list_num[j]
             j += 1
     return res_str
 
-inmort_string = 'AAAAAAFDDCCCCCCCAEEEEEEEEEEEEEEEEE'
+def load(file):
+    with open(file) as data:
+        start = data.read()
+        print(f'Файл {file} успешно загружен.')
+    return start
+
+def save(file):
+    with open('code.txt', 'w') as data:
+        data.write(file)
+        print('Файл успешно сохранён в "code.txt".')
 
 
+start_string = load('start_file.txt')
 
-code = rle_compression(inmort_string)
-print(code)
+code = rle_compression(start_string)
+print(f'Входной файл сжат: {code}')
+save(code)
 
 de_code = rle_recovery(code)
-print(de_code)
-
-
-
+print(f'Восстановление файла: {de_code}')
 
