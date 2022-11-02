@@ -1,7 +1,9 @@
 # Даны два многочлена. Задача - сформировать их сумму.
 # например, 5*x^3 + 2*x^2 + 6 и 7*x^2+6*x+3 , Тогда их сумма будет равна 5*x^3 + 9*x^2 + 6*x + 9
 
+
 import re
+
 
 # """задача 4 необязательная Даны два многочлена. Задача - сформировать их сумму.
 # например, 5*x^3 + 2*x^2 + 6 и 7*x^2+6*x+3 , Тогда их сумма будет равна 5*x^3 + 9*x^2 + 6*x + 9"""
@@ -102,40 +104,39 @@ import re
 # например, 5*x^3 + 2*x^2 + 6 и 7*x^2+6*x+3 , Тогда их сумма будет равна 5*x^3 + 9*x^2 + 6*x + 9"""
 
 
-
-
-
 # например, 5*x^3 + 2*x^2 + 6 и 7*x^2+6*x+3 , Тогда их сумма будет равна 5*x^3 + 9*x^2 + 6*x + 9
 def add_deg_x(text):
     count_x = 0
     count_d = 0
-    res_text =''
+    res_text = ''
     for i in range(len(text)):
         if 'x' == text[i]:
-            count_x +=1
+            count_x += 1
         if '^' == text[i]:
-            count_d +=1
+            count_d += 1
     if count_x != count_d:
         c_x = 0
         for i in range(len(text)):
             if text[i] == 'x':
-                c_x +=1
+                c_x += 1
             if text[i] == 'x' and count_x == c_x:
                 res_text += 'x^1'
             else:
-                res_text +=text[i]              
+                res_text += text[i]
     else:
         return text
     return res_text
 
+
 def max_deg(array):
-    max_deg =[]
+    max_deg = []
     for i in range(len(array)):
         for j in range(len(array[i])):
             if array[i][j].isdigit():
                 max_deg.append(array[i][j])
     max_deg = int(max(max_deg))
     return max_deg
+
 
 def start_poly(text):
     res_s = ''
@@ -147,21 +148,57 @@ def start_poly(text):
             res_s += text[i]
         elif text[i] == 'x' and text[i-1].isdigit():
             continue
-        elif text[i] == 'x' and text[i -1] == '-':
+        elif text[i] == 'x' and text[i - 1] == '-':
             continue
-        elif text[i] == 'x' and text[i+1] =='^' and text[i-1] != '-':
+        elif text[i] == 'x' and text[i+1] == '^' and text[i-1] != '-':
             res_s += '1'
-        elif text[i] == 'x' and text[i+1] =='^' and text[i -1] == '+':
+        elif text[i] == 'x' and text[i+1] == '^' and text[i - 1] == '+':
             res_s += '1'
-        elif text[i] == 'x' and text[i+1] =='^':
+        elif text[i] == 'x' and text[i+1] == '^':
             res_s += '1'
         else:
             res_s += text[i]
     return res_s
 
 
+def create_ratio_list(text, max_deg):
+    c_d = 0
+    ratio_list = []
+    st_1 = ''
+    while max_deg > 0:
+        for i in range(len(text)):
+            if max_deg == 0:
+                break
+            if text[i] == '^' and text[i+1] == str(max_deg):
+                c_d += 1
+                if text[i+1] == str(max_deg):
+                    ratio_list.append(''.join(map(str, numbers.findall(st_1))))
+                    st_1 = ''
+                    max_deg -= 1
+            if text[i-1] == '^':
+                st_1 = ''
+                continue
+            else:
+                st_1 += text[i]
+            if i == (len(text)-1):
+                ratio_list.append('0')
+                max_deg -= 1
+                st_1 = ''
+                break
+    return ratio_list
 
-s = '5*x^3 + 2*x^2+ 6'
+
+def ratio_c(list_ch, str_s, list_ratio):
+    if list_ch[-1] == '-':
+        str_s = str_s.split('-')
+        list_ratio.append(int(str_s[-1]) * (-1))
+    elif list_ch[-1] == '+':
+        str_s = str_s.split('+')
+        list_ratio.append(int(str_s[-1]))
+    return list_ratio
+
+
+s = '5*x^3 + 2*x^2+6'
 s1 = '7*x^2+6*x+3'
 
 s = s.replace(' ', '')
@@ -169,48 +206,46 @@ s = s.replace('*', '')
 s1 = s1.replace(' ', '')
 s1 = s1.replace('*', '')
 
-deg_s1 = re.findall(r'\S\^[1-9]', s)   #['x^3', 'x^2']
-deg_s2 = re.findall(r'\S\^[1-9]', s1)  #['x^2', 'x^1']
+deg_s1 = re.findall(r'\S\^[1-9]', s)  # ['x^3', 'x^2']
+deg_s2 = re.findall(r'\S\^[1-9]', s1)  # ['x^2', 'x^1']
 
-s = add_deg_x(s)   #5x^3+2x^2+6 
-s1 = add_deg_x(s1) #7x^2+6x^1+3 Добавляем степень x^1 
-  
-max_deg_s1 = max_deg(deg_s1) # Максимальная степень - 3
-max_deg_s2 = max_deg(deg_s2) # Максимальная степень - 2
-result_max_deg = max(max_deg_s1,max_deg_s2)
-print(result_max_deg)
-# print(max_deg_s1)
-# print(max_deg_s2)
+s = add_deg_x(s)  # 5x^3+2x^2+6
+s1 = add_deg_x(s1)  # 7x^2+6x^1+3 Добавляем степень x^1
 
-result_c1 = re.findall(r'\-?\d+', s1)
-# s = s.replace('x^3', '')
-# s = s.replace('x^2', '')
-# text = s1.replace('x^2', '')
-# text = s1.replace('x^1', '')
+max_deg_s1 = max_deg(deg_s1)  # Максимальная степень - 3
+max_deg_s2 = max_deg(deg_s2)  # Максимальная степень - 2
+result_max_deg = max(max_deg_s1, max_deg_s2)
 
 numbers = re.compile('-?\d+')
-result_num = list(map(int, numbers.findall(s)))
-result_num1 = list(map(int, numbers.findall(s1)))
-print(result_num)
-print(result_num1)
-
 
 s = start_poly(s)
 s1 = start_poly(s1)
-print(s)
-print(s1)
 
-# while result_max_deg > 0:
-
+ratio_list_s1 = create_ratio_list(s, result_max_deg)
+ratio_list_s2 = create_ratio_list(s1, result_max_deg)
 
 
-# list_1 = list(zip(result_num, deg_s1))
-# list_2 = list(zip(result_num1, deg_s2))
-# print(f'Первое уравнение: {list_1}')
-# print(f'Второе уравнение: {list_2}')
+sum_ch1 = re.findall(r'\D', s)
+sum_ch2 = re.findall(r'\D', s1)
 
-# res_a = list_1[1][0] + list_2[0][0]
-# res_c = result_num[-1]+result_num1[-1]
-# print(res_c)
 
-# print(f'Результат: {list_1[0][0]}*{list_1[0][1]}+{res_a}*{list_1[1][1]}+{list_2[1][0]}*{list_2[1][1]}+{res_c}')
+result_ratio_list_poly_1 = ratio_c(sum_ch1, s, ratio_list_s1)
+result_ratio_list_poly_2 = ratio_c(sum_ch2, s1, ratio_list_s2)
+
+
+result_1 = [int(item) for item in result_ratio_list_poly_1]
+result_2 = [int(item) for item in result_ratio_list_poly_2]
+
+res_list = [x + y for x, y in zip(result_1, result_2)]
+print(res_list)
+
+
+
+reseul_polynomial = ''
+for i in range(len(res_list)):
+    reseul_polynomial += f'{res_list[i]}'+'x^'+str(result_max_deg) + '+'
+    result_max_deg -= 1
+    if result_max_deg == 0:
+        break
+reseul_polynomial += str(res_list[-1])
+print(reseul_polynomial)
