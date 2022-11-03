@@ -1,110 +1,9 @@
 # Даны два многочлена. Задача - сформировать их сумму.
 # например, 5*x^3 + 2*x^2 + 6 и 7*x^2+6*x+3 , Тогда их сумма будет равна 5*x^3 + 9*x^2 + 6*x + 9
 
-
 import re
 
 
-# """задача 4 необязательная Даны два многочлена. Задача - сформировать их сумму.
-# например, 5*x^3 + 2*x^2 + 6 и 7*x^2+6*x+3 , Тогда их сумма будет равна 5*x^3 + 9*x^2 + 6*x + 9"""
-
-# def max_degree(poly):
-#     list = poly.replace(' ', '').split('x')
-#     degree = 0
-#     check = 0
-#     for i in list:
-#         for l in range(len(i)):
-#             if i[l] == '^':
-#                 check = 1
-#                 degree = int(i[l + 1])
-#                 break
-#         if check == 1:
-#             check = 0
-#             break
-#     return degree
-
-# def list_of_coefficients(poly1, degree):
-#     list = poly1.split('+')
-#     new_list = []
-#     d = degree
-#     i = 0
-#     while d > 0:
-#         if i < len(list):
-#             if not 'x' in list[i]:
-#                 new_list.append(0)
-#             else:
-#                 if list[i][0] == '-':
-#                     if list[i][1].isdigit():
-#                         temp = int(list[i][1]) * (-1)
-#                     elif list[i][1] == 'x':
-#                         temp = -1
-#                 elif list[i][0].isdigit():
-#                     temp = int(list[i][0])
-#                 elif list[i][0] == 'x':
-#                     temp = 1
-#                 for l in range(len(list[i])):
-#                     if list[i][l] == 'x':
-#                         if ('^' in list[i]) and (list[i][l + 1] == '^'):
-#                             if list[i][l + 2] == str(d):
-#                                 new_list.append(temp)
-#                                 i += 1
-#                             else:
-#                                 new_list.append(0)
-#                             break
-#                         else:
-#                             if '1' == str(d):
-#                                 new_list.append(temp)
-#                                 i += 1
-#                             else:
-#                                 new_list.append(0)
-#                             break
-#         else:
-#             new_list.append(0)
-#             new_list.append(0)
-#         d -= 1
-#     for j in list:
-#         if not 'x' in j:
-#             new_list.append(int(j))
-#     return new_list
-
-# def list_to_polynomial(list1):
-#     res = ''
-#     degree = len(list1) - 1
-#     for i in list1:
-#         if i != 0:
-#             if degree == 1:
-#                 res += f'{str(i)}*x^{degree} + '
-#                 degree -= 1
-#             elif degree == 0:
-#                 res += f'{str(i)}'
-#             else:
-#                 res += f'{str(i)}*x^{degree} + '
-#                 degree -= 1
-#         else:
-#             degree -= 1
-
-#     res = res.replace('+ -', '- ')
-#     print(res)
-
-
-# polynomial_first = ' 5*х^4 - 2*x^2 - 6'.replace('х', 'x').replace(' ', '').replace('*', '').replace('-','+-')
-# polynomial_second = ' 7*x^2 - x - 3'.replace('х', 'x').replace(' ', '').replace('*', '').replace('-','+-')
-
-# print(polynomial_first)
-# print(polynomial_second)
-# degree1 = max_degree(polynomial_first)
-# degree2 = max_degree(polynomial_second)
-# maximum_degree = max(degree1, degree2)
-# list1 = list_of_coefficients(polynomial_first, maximum_degree)
-# list2 = list_of_coefficients(polynomial_second, maximum_degree)
-# res_list = [x + y for x, y in zip(list1, list2)]
-# list_to_polynomial(res_list)
-
-# """задача 4 необязательная Даны два многочлена. Задача - сформировать их сумму.
-# например, 5*x^3 + 2*x^2 + 6 и 7*x^2+6*x+3 , Тогда их сумма будет равна 5*x^3 + 9*x^2 + 6*x + 9"""
-
-
-# например, 5*x^3 + 2*x^2 + 6 и 7*x^2+6*x+3 , Тогда их сумма будет равна 5*x^3 + 9*x^2 + 6*x + 9
 def add_deg_x(text):
     count_x = 0
     count_d = 0
@@ -165,6 +64,7 @@ def create_ratio_list(text, max_deg):
     c_d = 0
     ratio_list = []
     st_1 = ''
+    a = len(text)
     while max_deg > 0:
         for i in range(len(text)):
             if max_deg == 0:
@@ -180,11 +80,14 @@ def create_ratio_list(text, max_deg):
                 continue
             else:
                 st_1 += text[i]
-            if i == (len(text)-1):
+            if i == (len(text)-2):
                 ratio_list.append('0')
                 max_deg -= 1
                 st_1 = ''
                 break
+    for i in range(len(ratio_list)):
+        if ratio_list[i] == '':
+            ratio_list[i] = '1'
     return ratio_list
 
 
@@ -198,13 +101,29 @@ def ratio_c(list_ch, str_s, list_ratio):
     return list_ratio
 
 
-s = '5*x^3 + 2*x^2+6'
-s1 = '7*x^2+6*x+3'
+def show_result_polynomual(res_list, result_max_deg):
+    reseul_polynomial = ''
 
-s = s.replace(' ', '')
-s = s.replace('*', '')
-s1 = s1.replace(' ', '')
-s1 = s1.replace('*', '')
+    for i in range(len(res_list)):
+        reseul_polynomial += f'{res_list[i]}'+'*x^'+str(result_max_deg) + '+'
+        result_max_deg -= 1
+        if result_max_deg == 0:
+            break
+    reseul_polynomial += str(res_list[-1])
+    for i in range(len(reseul_polynomial)-1):
+        if reseul_polynomial[i] == '+' and reseul_polynomial[i+1] == '-':
+            reseul_polynomial = reseul_polynomial.replace('+-', '-')
+        elif reseul_polynomial[i] == '+' and reseul_polynomial[i+1] == '0':
+            reseul_polynomial = reseul_polynomial.replace('+0', '')
+    ch = '1*'
+    if ch in reseul_polynomial:
+        reseul_polynomial = reseul_polynomial.replace('1*', '')
+    return reseul_polynomial
+
+
+# 52x^3-2x^2-x+3 - удаляем лишние пробелы и знаки
+s = '52*x^3 - 2*x^2 - x + 3'.replace(' ', '').replace('*', '')
+s1 = 'x^2+6*x'.replace(' ', '').replace('*', '')               # x^2+6x
 
 deg_s1 = re.findall(r'\S\^[1-9]', s)  # ['x^3', 'x^2']
 deg_s2 = re.findall(r'\S\^[1-9]', s1)  # ['x^2', 'x^1']
@@ -216,36 +135,25 @@ max_deg_s1 = max_deg(deg_s1)  # Максимальная степень - 3
 max_deg_s2 = max_deg(deg_s2)  # Максимальная степень - 2
 result_max_deg = max(max_deg_s1, max_deg_s2)
 
-numbers = re.compile('-?\d+')
+numbers = re.compile('-?\d+')  # Компилируем шаблон для поиска чисел в строке
 
-s = start_poly(s)
-s1 = start_poly(s1)
+s = start_poly(s)  # 52^3-2^2-1^1+3 -получаем строку со степенями
+s1 = start_poly(s1)  # ^2+6^1
 
-ratio_list_s1 = create_ratio_list(s, result_max_deg)
-ratio_list_s2 = create_ratio_list(s1, result_max_deg)
+ratio_list_s1 = create_ratio_list(s, result_max_deg)   # ['52', '-2', '-1'] - Получаем коэфициенты перед 'X'
+ratio_list_s2 = create_ratio_list(s1, result_max_deg)  # ['0', '1', '6', '0']
 
-
-sum_ch1 = re.findall(r'\D', s)
-sum_ch2 = re.findall(r'\D', s1)
-
+sum_ch1 = re.findall(r'\D', s)  # ['^', '-', '^', '-', '^', '+'] - Получаем список знаков, нас интересует последний знак
+sum_ch2 = re.findall(r'\D', s1) # ['^', '+', '^']
 
 result_ratio_list_poly_1 = ratio_c(sum_ch1, s, ratio_list_s1)
 result_ratio_list_poly_2 = ratio_c(sum_ch2, s1, ratio_list_s2)
 
+result_1 = [int(item) for item in result_ratio_list_poly_1] # [52, -2, -1, 3] - Получаем итоговые значения в каждом многочлене
+result_2 = [int(item) for item in result_ratio_list_poly_2] # [0, 1, 6, 0]
 
-result_1 = [int(item) for item in result_ratio_list_poly_1]
-result_2 = [int(item) for item in result_ratio_list_poly_2]
+res_list = [x + y for x, y in zip(result_1, result_2)]      # [52, -1, 5, 3] - Получаем сумму двух коэффициентов многочленов
 
-res_list = [x + y for x, y in zip(result_1, result_2)]
-print(res_list)
+show_result = show_result_polynomual(res_list, result_max_deg) # 52*x^3-x^2+5*x^1+3 - результат
 
-
-
-reseul_polynomial = ''
-for i in range(len(res_list)):
-    reseul_polynomial += f'{res_list[i]}'+'x^'+str(result_max_deg) + '+'
-    result_max_deg -= 1
-    if result_max_deg == 0:
-        break
-reseul_polynomial += str(res_list[-1])
-print(reseul_polynomial)
+print(show_result) 
