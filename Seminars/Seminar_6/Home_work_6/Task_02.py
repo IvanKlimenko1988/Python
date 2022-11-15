@@ -21,6 +21,31 @@ def find_operations(text):
     return list_operations
 
 
+def find_operations_priority(text):
+    pattern = '.'
+    list_operations = re.findall(pattern, text)
+    return list_operations
+
+def final_expression(text, text_1):
+    new_str = ''
+    index_start = text.index('(')
+    index_end = text.index(')')
+    for i in range(len(text)):
+        if i < index_start or i > index_end:
+            new_str+= text[i]
+    result_srt = ''
+    if new_str[0] == '*' or new_str[0] == '/' or new_str[0] == '-' or new_str[0] == '+':
+        result_srt += str(text_1) + new_str
+    elif new_str[-1] == '*' or new_str[-1] == '/' or new_str[-1] == '-' or new_str[-1] == '+':
+        result_srt += new_str + str(text_1)
+    return result_srt
+
+def priority_decision(text):
+    index_start = text.index('(')
+    index_end = text.index(')')
+    expression_priority = text[index_start+1:index_end]
+    return expression_priority
+
 def calculator(list_digit, list_oper):
     for n in range(len(list_digit)):
         for i in range(len(list_oper)):
@@ -49,9 +74,26 @@ def result_operations(digits, operations):
 expression = input("Введите арифметического выражения: ")
 expression = expression.replace(' ', '')
 
-digits = find_digit(expression)
-operations = find_operations(expression)
-operations = result_operations(digits, operations)
-result = sum(calculator(digits, operations))
+if '(' and ')' in expression:
+    expression_priority =  priority_decision(expression)
+    digits_prior = find_digit(expression_priority)
+    oper_prior = find_operations(expression_priority)
+    oper_prior = result_operations(digits_prior, oper_prior)
+    result_priority = sum(calculator(digits_prior, oper_prior)) # Резутьтат из скобок
 
-print(f'{expression} = {result}')
+    final_string = final_expression(expression, result_priority)
+    final_digit = find_digit(final_string)
+    final_oper = find_operations(final_string)
+    final_oper = result_operations(final_digit,final_oper)
+    final_result = sum(calculator(final_digit,final_oper))
+
+    print(f'{expression} = {final_result}')
+else:
+    digits = find_digit(expression)
+    operations = find_operations(expression)
+    operations = result_operations(digits, operations)
+    result = sum(calculator(digits, operations))
+    print(f'{expression} = {result}')
+
+
+        
