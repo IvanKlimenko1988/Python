@@ -1,3 +1,5 @@
-import menu as m
+from window import Window
 
-m.window_menu.mainloop()
+window = Window(500, 500, "TEST")
+window.create_child(200, 100, "2")
+window.run()
