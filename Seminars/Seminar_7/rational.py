@@ -1,6 +1,5 @@
 import re
 
-
 def find_digit(text):
     numbers = re.compile('-?\d+')
     list_digit = list(map(int, numbers.findall(text)))
@@ -62,27 +61,25 @@ def result_operations(digits, operations):
             del operations[0]
     return operations
 
+def imput_text(text):
+    expression = text
+    expression = expression.replace(' ', '')
+    if '(' and ')' in expression:
+        expression_priority =  priority_decision(expression)
+        digits_prior = find_digit(expression_priority)
+        oper_prior = find_operations(expression_priority)
+        oper_prior = result_operations(digits_prior, oper_prior)
+        result_priority = sum(calculator(digits_prior, oper_prior)) # Резутьтат из скобок
 
-expression = input("Введите арифметического выражения: ")
-expression = expression.replace(' ', '')
-
-if '(' and ')' in expression:
-    expression_priority =  priority_decision(expression)
-    digits_prior = find_digit(expression_priority)
-    oper_prior = find_operations(expression_priority)
-    oper_prior = result_operations(digits_prior, oper_prior)
-    result_priority = sum(calculator(digits_prior, oper_prior)) # Резутьтат из скобок
-
-    final_string = final_expression(expression, result_priority)
-    final_digit = find_digit(final_string)
-    final_oper = find_operations(final_string)
-    final_oper = result_operations(final_digit,final_oper)
-    final_result = sum(calculator(final_digit,final_oper))
-
-    print(f'{expression} = {final_result}')
-else:
-    digits = find_digit(expression)
-    operations = find_operations(expression)
-    operations = result_operations(digits, operations)
-    result = sum(calculator(digits, operations))
-    print(f'{expression} = {result}')
+        final_string = final_expression(expression, result_priority)
+        final_digit = find_digit(final_string)
+        final_oper = find_operations(final_string)
+        final_oper = result_operations(final_digit,final_oper)
+        result = sum(calculator(final_digit,final_oper))
+        return result
+    else:
+        digits = find_digit(expression)
+        operations = find_operations(expression)
+        operations = result_operations(digits, operations)
+        result = sum(calculator(digits, operations))
+        return result
