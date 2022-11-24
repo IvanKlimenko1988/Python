@@ -10,7 +10,6 @@ def get_entry(entry, my_data):
     entry.delete(0, END)
     entry.insert(END, string)
     log.logger(value, string)
-        # easygui.msgbox(msg=f'{str_user} = {result[0]}', title='Ответ')
 
 
 def create_buttun(frame, digit, func):

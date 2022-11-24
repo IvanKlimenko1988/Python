@@ -11,11 +11,6 @@ def show_calc():
 
 def show_complex():
     complex.press_calc_complex()
-
-def show_log():
-    with open('logs.txt', "r") as file:
-        logs = file.read()
-    return Text()
     
 def open_win_logs():
     log.show_logs()
