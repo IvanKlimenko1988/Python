@@ -16,8 +16,8 @@ def del_student():
     ent_phone = StringVar()
     del_window.title("Удаление данных")
     del_window.geometry("450x300+900+500")
-    del_window.iconbitmap(
-        default="G:\Java\GeekBraints\Seminars\Python\Seminars\Seminar_8\del.ico")
+    # del_window.iconbitmap(
+    #     default="G:\Java\GeekBraints\Seminars\Python\Seminars\Seminar_8\del.ico")
 
 
 

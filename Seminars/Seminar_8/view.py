@@ -16,8 +16,8 @@ def view_student():
     ent_phone = StringVar()
     view.title("Данные об учениках")
     view.geometry("450x300+900+500")
-    view.iconbitmap(
-        default="G:\Java\GeekBraints\Seminars\Python\Seminars\Seminar_8\\view.ico")
+    # view.iconbitmap(
+    #     default="G:\Java\GeekBraints\Seminars\Python\Seminars\Seminar_8\\view.ico")
 
 
 

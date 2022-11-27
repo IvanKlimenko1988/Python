@@ -16,8 +16,8 @@ def find_student():
     ent_phone = StringVar()
     find_window.title("Поиск")
     find_window.geometry("450x300+900+500")
-    find_window.iconbitmap(
-        default="G:\Java\GeekBraints\Seminars\Python\Seminars\Seminar_8\search.ico")
+    # find_window.iconbitmap(
+        # default="G:\Java\GeekBraints\Seminars\Python\Seminars\Seminar_8\search.ico")
 
 
 
