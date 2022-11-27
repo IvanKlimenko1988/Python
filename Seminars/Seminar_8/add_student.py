@@ -13,35 +13,7 @@
 # разбиение на модули
 
 
-import sqlite3
 
-# db = sqlite3.connect('data.db')
-# cursor = db.cursor()
-# # Создание таблицы с полями
-# cursor.execute("""CREATE TABLE students (
-#     first_name text,
-#     name text,
-#     second_name text,
-#     class integer,
-#     average grade integer,
-#     date_of_birthday integer,
-#     phone_number integer
-# )""")
-# Добавление данных
-# cursor.execute("INSERT INTO students VALUES ('2', 'Petrov', 'Petr', 'Petrovich', '3', '4', '20.05.2011', '+79270000001')")
-# Выборка данных конкретно одного поля или несколько через запятую, если хотим все - ставим *, rowid - номер записи
-# cursor.execute("SELECT rowid, * FROM students")
-# print(cursor.fetchall()) #[(1, 'Ivanovich', 'Ivanov'), (2, 'Petrovich', 'Petrov')]
-# print(cursor.fetchmany(1)) #Покажет одну запись в формате списка [(1, 'Ivanov', 'Ivan', 'Ivanovich', 5, 5, '23.03.2012', 75123523210)]
-# print(cursor.fetchone()[1]) #Покажет одну запись в формате кортежа # Petrov
-
-# Удаление данных
-# cursor.execute("DELETE FROM students")
-
-
-# db.commit()
-
-# db.close()
 from tkinter import *
 
 
@@ -63,7 +35,7 @@ def craate_place(row, col, place, position):
 
 
 def craete_row(win, text):
-    return Label(win, text=text)
+    return Label(win, text=text, font='Times 20')
 
 
 def create_input_stirng(win, data):
@@ -83,7 +55,7 @@ def add_student():
     ent_birthday = StringVar()
     ent_phone = StringVar()
     add_window.title("Новый ученик")
-    add_window.geometry("450x300+900+500")
+    # add_window.geometry("450x300+900+500")
     add_window.iconbitmap(
         default="G:\Java\GeekBraints\Seminars\Python\Seminars\Seminar_8\s_add.ico")
     lbl_title = craete_row(add_window, "Карточка ученика")
