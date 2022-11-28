@@ -16,8 +16,8 @@ def change_student():
     ent_phone = StringVar()
     change_window.title("Изменение данных ученика")
     change_window.geometry("450x300+900+500")
-    # change_window.iconbitmap(
-    #     default="G:\Java\GeekBraints\Seminars\Python\Seminars\Seminar_8\edit.ico")
+    change_window.iconbitmap(
+        default="G:\Java\GeekBraints\Seminars\Python\Seminars\Seminar_8\edit.ico")
 
 
 

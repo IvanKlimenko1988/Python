@@ -18,9 +18,9 @@ def window_init():
     
     menu_window.title("Dev. KlimenkoII - ИС-ученики")
     # menu_window.geometry("450x400+900+500")
-    # menu_window.resizable(False, False)
-    # menu_window.iconbitmap(
-    #     default="G:\Java\GeekBraints\Seminars\Python\Seminars\Seminar_8\IS.ico")
+    menu_window.resizable(False, False)
+    menu_window.iconbitmap(
+        default="G:\Java\GeekBraints\Seminars\Python\Seminars\Seminar_8\IS.ico")
     lbl_title = st.craete_row(menu_window, "Меню")
     st.craate_place(0, 0, lbl_title, NSEW)
     btn_view = create_buttun(menu_window, "Просмотр базы учеников", v.view_student)

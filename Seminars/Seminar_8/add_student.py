@@ -15,21 +15,14 @@
 
 
 from tkinter import *
-import bd_students as bs
-
+# import view as v
+import bd_students as bd
 def get_entry(entry, my_data):
     value = my_data.get()
-    bs.add_info(value)
-    print(value)
+    bd.temp_students.append(value)
     
-    # string = rational.imput_text(value)
-    # entry.delete(0, END)
-    # entry.insert(END, string)
-    # log.logger(value, string)
-
-
 def create_buttun(frame, func):
-    return Button(frame, text="Принять", command=func)
+    return Button(frame, text="Подтвердить", command=func, activebackground='green', activeforeground='red')
 
 
 def craate_place(row, col, place, position):
@@ -48,81 +41,73 @@ def create_input_stirng(win, data):
 def add_student():
 
     add_window = Toplevel()
-
     ent_first_name = StringVar()
-    # ent_second_name = StringVar()
+    ent_second_name = StringVar()
     ent_name = StringVar()
-    # ent_class = StringVar()
-    # ent_grades = StringVar()
-    # ent_birthday = StringVar()
-    # ent_phone = StringVar()
+    ent_class = StringVar()
+    ent_grades = StringVar()
+    ent_birthday = StringVar()
+    ent_phone = StringVar()
 
     add_window.title("Новый ученик")
     # add_window.geometry("450x300+900+500")
-    # add_window.iconbitmap(
-    #     default="G:\Java\GeekBraints\Seminars\Python\Seminars\Seminar_8\s_add.ico")
+    add_window.iconbitmap(
+        default="G:\Java\GeekBraints\Seminars\Python\Seminars\Seminar_8\s_add.ico")
     lbl_title = craete_row(add_window, "Карточка ученика")
     craate_place(0, 1, lbl_title, N)
     lbl_first_name = craete_row(add_window, "Фамилия")
     craate_place(1, 0, lbl_first_name, W)
     lbl_name = craete_row(add_window, "Имя")
     craate_place(2, 0, lbl_name, W)
-    # lbl_second_name = craete_row(add_window, "Отчество")
-    # craate_place(3, 0, lbl_second_name, W)
-    # lbl_class = craete_row(add_window, "Класс")
-    # craate_place(4, 0, lbl_class, W)
-    # lbl_grades = craete_row(add_window, "Общая успеваемость")
-    # craate_place(5, 0, lbl_grades, W)
-    # lbl_birthday = craete_row(add_window, "Дата рождения")
-    # craate_place(6, 0, lbl_birthday, W)
-    # lbl_phone = craete_row(add_window, "Номер телефона")
-    # craate_place(7, 0, lbl_phone, W)
+    lbl_second_name = craete_row(add_window, "Отчество")
+    craate_place(3, 0, lbl_second_name, W)
+    lbl_class = craete_row(add_window, "Класс")
+    craate_place(4, 0, lbl_class, W)
+    lbl_grades = craete_row(add_window, "Общая успеваемость")
+    craate_place(5, 0, lbl_grades, W)
+    lbl_birthday = craete_row(add_window, "Дата рождения")
+    craate_place(6, 0, lbl_birthday, W)
+    lbl_phone = craete_row(add_window, "Номер телефона")
+    craate_place(7, 0, lbl_phone, W)
     
-
     enter_first_name = create_input_stirng(add_window, ent_first_name)
     craate_place(1, 1, enter_first_name, S)
-    # enter_second_name = create_input_stirng(add_window, ent_second_name)
-    # craate_place(2, 1, enter_second_name, S)
+    enter_second_name = create_input_stirng(add_window, ent_second_name)
+    craate_place(2, 1, enter_second_name, S)
     enter_name = create_input_stirng(add_window, ent_name)
     craate_place(3, 1, enter_name, S)
-    # enter_class = create_input_stirng(add_window, ent_class)
-    # craate_place(4, 1, enter_class, S)
-    # enter_grades = create_input_stirng(add_window, ent_grades)
-    # craate_place(5, 1, enter_grades, S)
-    # enter_birthday = create_input_stirng(add_window, ent_birthday)
-    # craate_place(6, 1, enter_birthday, S)
-    # enter_phone = create_input_stirng(add_window, ent_phone)
-    # craate_place(7, 1, enter_phone, S)
+    enter_class = create_input_stirng(add_window, ent_class)
+    craate_place(4, 1, enter_class, S)
+    enter_grades = create_input_stirng(add_window, ent_grades)
+    craate_place(5, 1, enter_grades, S)
+    enter_birthday = create_input_stirng(add_window, ent_birthday)
+    craate_place(6, 1, enter_birthday, S)
+    enter_phone = create_input_stirng(add_window, ent_phone)
+    craate_place(7, 1, enter_phone, S)
 
     btn_first_name = create_buttun(
         add_window, lambda: get_entry(enter_first_name, ent_first_name))
     craate_place(1, 2, btn_first_name, S)
-    # btn_second_name = create_buttun(
-    #     add_window, lambda: get_entry(enter_second_name, ent_second_name))
-    # craate_place(2, 2, btn_second_name, S)
+    btn_second_name = create_buttun(
+        add_window, lambda: get_entry(enter_second_name, ent_second_name))
+    craate_place(2, 2, btn_second_name, S)
     btn_name = create_buttun(
         add_window, lambda: get_entry(enter_name, ent_name))
     craate_place(3, 2, btn_name, S)
-    # btn_class = create_buttun(
-    #     add_window, lambda: get_entry(enter_class, ent_class))
-    # craate_place(4, 2, btn_class, S)
-    # btn_grades = create_buttun(
-    #     add_window, lambda: get_entry(enter_grades, ent_grades))
-    # craate_place(5, 2, btn_grades, S)
-    # btn_birthday = create_buttun(
-    #     add_window, lambda: get_entry(enter_birthday, ent_birthday))
-    # craate_place(6, 2, btn_birthday, S)
-    # btn_phone = create_buttun(
-    #     add_window, lambda: get_entry(enter_phone, ent_phone))
-    # craate_place(7, 2, btn_phone, S)
-    # btn_phone = create_buttun(
-    #     add_window, lambda: get_entry(enter_phone, ent_phone))
-    # craate_place(7, 2, btn_phone, S)
-
-
-    # btn_add_info = create_buttun(
-    #     add_window, bs.add_info)
-    # craate_place(2, 0, btn_add_info, S)
+    btn_class = create_buttun(
+        add_window, lambda: get_entry(enter_class, ent_class))
+    craate_place(4, 2, btn_class, S)
+    btn_grades = create_buttun(
+        add_window, lambda: get_entry(enter_grades, ent_grades))
+    craate_place(5, 2, btn_grades, S)
+    btn_birthday = create_buttun(
+        add_window, lambda: get_entry(enter_birthday, ent_birthday))
+    craate_place(6, 2, btn_birthday, S)
+    btn_phone = create_buttun(
+        add_window, lambda: get_entry(enter_phone, ent_phone))
+    craate_place(7, 2, btn_phone, S)
+    btn_add_info = Button(add_window, text="Записать в БД", font = 'Times 20', activebackground='green', activeforeground='red', command=bd.add_first_name) 
+    craate_place(8, 2, btn_add_info, NSEW)
     
 
 
