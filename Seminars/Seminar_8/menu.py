@@ -5,19 +5,12 @@ import change_info as ci
 import del_student as ds
 import view as v
 
-
 def create_buttun(frame, text, func):
     return Button(frame, text = text, command=func, font='Times 18', activebackground='green', activeforeground='red')
 
-
-
 def window_init():
-    # log.logger_start()
     menu_window = Tk()
-
-    
-    menu_window.title("Dev. KlimenkoII - ИС-ученики")
-    # menu_window.geometry("450x400+900+500")
+    menu_window.title("ИС-ученики")
     menu_window.resizable(False, False)
     menu_window.iconbitmap(
         default="G:\Java\GeekBraints\Seminars\Python\Seminars\Seminar_8\IS.ico")
@@ -33,14 +26,6 @@ def window_init():
     st.craate_place(4, 0, btn_change, NSEW)
     btn_del = create_buttun(menu_window, "Удалить данные", ds.del_student)
     st.craate_place(5, 0, btn_del, NSEW)
-
-    
-    
-    
-    
-
-    
     menu_window.mainloop()
 
 
-window_init()

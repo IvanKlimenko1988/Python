@@ -1,26 +1,12 @@
-# Создать информационную систему для работы с какой либо предметной областью.
-# ОБязательные требования:
-# 1. разбиение на модули.
-# 2. внешнее хранилище информации (или БД или файл формата txt / json / csv)
-# 3. Функционал по просмотру, поиску, добавлению, редактированию, удалению информации.
-
-# Плюсами будет наличие ГУИ и/или наличие настоящей БД (SQLite3 / PostgreSQL)
-
-# требования - поиск и выдача информации,
-# добавление новой,
-# удаление,
-# внешнее хранилище данных,
-# разбиение на модули
-
-
-
 from tkinter import *
-# import view as v
 import bd_students as bd
+
+
 def get_entry(entry, my_data):
     value = my_data.get()
     bd.temp_students.append(value)
-    
+
+
 def create_buttun(frame, func):
     return Button(frame, text="Подтвердить", command=func, activebackground='green', activeforeground='red')
 
@@ -50,7 +36,6 @@ def add_student():
     ent_phone = StringVar()
 
     add_window.title("Новый ученик")
-    # add_window.geometry("450x300+900+500")
     add_window.iconbitmap(
         default="G:\Java\GeekBraints\Seminars\Python\Seminars\Seminar_8\s_add.ico")
     lbl_title = craete_row(add_window, "Карточка ученика")
@@ -69,7 +54,7 @@ def add_student():
     craate_place(6, 0, lbl_birthday, W)
     lbl_phone = craete_row(add_window, "Номер телефона")
     craate_place(7, 0, lbl_phone, W)
-    
+
     enter_first_name = create_input_stirng(add_window, ent_first_name)
     craate_place(1, 1, enter_first_name, S)
     enter_second_name = create_input_stirng(add_window, ent_second_name)
@@ -106,11 +91,9 @@ def add_student():
     btn_phone = create_buttun(
         add_window, lambda: get_entry(enter_phone, ent_phone))
     craate_place(7, 2, btn_phone, S)
-    btn_add_info = Button(add_window, text="Записать в БД", font = 'Times 20', activebackground='green', activeforeground='red', command=bd.add_first_name) 
+    btn_add_info = Button(add_window, text="Записать в БД", font='Times 20',
+                          activebackground='green', activeforeground='red', command=bd.add_first_name)
     craate_place(8, 2, btn_add_info, NSEW)
-    
-
 
     add_window.grab_set()
     add_window.mainloop()
-

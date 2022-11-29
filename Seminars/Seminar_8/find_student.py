@@ -30,6 +30,8 @@ def find_student():
     st.craate_place(5, 0, btn_average_grade, NSEW)
     btn_date_of_birthday = create_buttun(find_window, "Дата рождения", v.view_date_of_birthday)
     st.craate_place(6, 0, btn_date_of_birthday, NSEW)
+    btn_phone_number = create_buttun(find_window, "Номер телефона", v.view_phone_number)
+    st.craate_place(7, 0, btn_phone_number, NSEW)
 
 
 
