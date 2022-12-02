@@ -6,7 +6,8 @@ from telebot import types as t
 
 API_TOKEN = config.token()
 bot = telebot.TeleBot(API_TOKEN)
-
+# def token():
+#     return '5819920550:AAE-tsqNY_KCwELEXoSCrdgZoJuhrOY27Co'
 
 
 start_game = False
