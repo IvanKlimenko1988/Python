@@ -6,8 +6,6 @@ from telebot import types as t
 
 API_TOKEN = config.token()
 bot = telebot.TeleBot(API_TOKEN)
-# def token():
-#     return '5819920550:AAE-tsqNY_KCwELEXoSCrdgZoJuhrOY27Co'
 
 
 start_game = False
@@ -115,14 +113,17 @@ def callbackInline(call):
             first_move = "❌"
             bot_char = "⭕"
             bot.send_message(call.message.chat.id, "Игрок выбрал ❌")
-            if start_game == True:
-                global feald
-                feald = {}
-                bot.send_message(call.message.chat.id, "Игра началась, удачи!")
+            # if start_game == True:
+            #     global feald
+            #     feald = {}
+            #     bot.send_message(call.message.chat.id, "Игра началась, удачи!")
         elif call.data == "btn_null":
             first_move = "⭕"
             bot_char = "❌"
             bot.send_message(call.message.chat.id, "Игрок выбрал ⭕")
+        if first_move == "❌" or first_move == "⭕":
+            start_game = True
+            bot.send_message(call.message.chat.id, "Игра началась!")
 
         
 
