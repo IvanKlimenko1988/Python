@@ -16,15 +16,6 @@ game_feald = [" ", " ", " ",
               " ", " ", " ",
               " ", " ", " ", ]
 
-# chars = ['❌', "⭕"]
-# first_move = chars[random.randint(0, 1)]
-
-# bot_char = ""
-# if first_move == "⭕":
-#     bot_char = "❌"
-# else:
-#     bot_char = "⭕"
-
 def clear_feald():
     global game_feald
     game_feald = [" ", " ", " ",
@@ -33,29 +24,16 @@ def clear_feald():
 
 
 def win(cell_1, cell_2, cell_3):
-    if cell_1 == first_move and cell_2 == first_move and cell_3 == first_move:
-        print("win")
+    if cell_1 == player_move and cell_2 == player_move and cell_3 == player_move:
         global winner
         winner = True
-
-
-def lose(cell_1, cell_2, cell_3):
-    if cell_1 == bot_char and cell_2 == bot_char and cell_3 == bot_char:
-        print("lose")
-        global losser
-        losser = True
-
-
-def defend(cell_1, cell_2, posDef):
-    if cell_1 == first_move and cell_2 == first_move:
-        posDef = bot_char
 
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
     bot.send_message(
         message.chat.id,
-        "Привет {0.first_name}!\nМеня зовут ПГУшка ✌️\nНабери команду /help и я покажу, что я умею.".format(
+        "Привет {0.first_name}!\nМеня зовут Бот-Валера ✌️\nНабери команду /help и я покажу, что я умею.".format(
         message.from_user, bot.get_me()))
 
 
@@ -75,127 +53,123 @@ def choise_func(message):
 
 
 @bot.message_handler(content_types=['text'])
-def mess(message):
+def menu_choice(message):
+    
     if message.chat.type == 'private':
+        global feald
+        global bot_move
+        global player_move
+        global start_game
         if message.text == "Калькулятор":
             global markup
             global calc
             calc = True
             bot.send_message(message.chat.id, "Введите выражение:)")
         elif message.text == 'Игра "Крестики-Нолики"':
-            markup = t.InlineKeyboardMarkup(row_width=2)
-            btn_cross = t.InlineKeyboardButton(text= "Играть ❌", callback_data="btn_cross")
-            btn_null = t.InlineKeyboardButton(text= "Играть ⭕", callback_data="btn_null")
-            # global start_game
-            # start_game = True
+            start_game = True
+            markup = t.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+            btn_cross = t.KeyboardButton("Играть ❌")
+            btn_null = t.KeyboardButton("Играть ⭕")
             markup.add(btn_cross, btn_null)
-            bot.send_message(message.chat.id, 'Выберите сторону', reply_markup=markup)
-    if start_game == True:
-        global game_feald
-        feald = {}  
-        markup = t.InlineKeyboardMarkup(row_width=3)
-        for i in range(9):
-            feald[i] = t.InlineKeyboardButton(game_feald[i], callback_data= str(i))
-        markup.row(feald[0], feald[1], feald[2])
-        markup.row(feald[3], feald[4], feald[5])
-        markup.row(feald[6], feald[7], feald[8])
-        bot.send_message(message.chat.id, "Нажми на пустую клетку", reply_markup=markup)
-        
-
+            bot.send_message(message.chat.id, 'Выберите сторону:', reply_markup=markup)
+        elif message.text == "Играть ❌":
+            player_move = "❌"
+            bot_move = "⭕"
+            feald = {}  
+            markup = t.InlineKeyboardMarkup(row_width=3)
+            for i in range(9):
+                feald[i] = t.InlineKeyboardButton(game_feald[i], callback_data= str(i))
+            markup.row(feald[0], feald[1], feald[2])
+            markup.row(feald[3], feald[4], feald[5])
+            markup.row(feald[6], feald[7], feald[8])
+            bot.send_message(message.chat.id, "Нажми на пустую клетку", reply_markup=markup)
+        elif message.text == "Играть ⭕":
+            player_move = "⭕"
+            bot_move = "❌"
+            feald = {}  
+            markup = t.InlineKeyboardMarkup(row_width=3)
+            for i in range(9):
+                feald[i] = t.InlineKeyboardButton(game_feald[i], callback_data= str(i))
+            markup.row(feald[0], feald[1], feald[2])
+            markup.row(feald[3], feald[4], feald[5])
+            markup.row(feald[6], feald[7], feald[8])
+            bot.send_message(message.chat.id, "Нажми на пустую клетку", reply_markup=markup)
+        elif message.text == "Да":
+            bot.send_message(message.chat.id, "Нажми:\n/func")
+        elif message.text == "Нет":
+            bot.send_message(message.chat.id, "Было весело, спасибо за игру!")
+    
 
 
 @bot.callback_query_handler(func=lambda call: True)
 def callbackInline(call):
-    global bot_char
-    global first_move
+    count = 9
+    global start_game
+    global winner
+    global markup
+    global game_feald
+    global bot_move
+    global player_move
     if (call.message):
-        if call.data == "btn_cross":
-            first_move = "❌"
-            bot_char = "⭕"
-            bot.send_message(call.message.chat.id, "Игрок выбрал ❌")
-            # if start_game == True:
-            #     global feald
-            #     feald = {}
-            #     bot.send_message(call.message.chat.id, "Игра началась, удачи!")
-        elif call.data == "btn_null":
-            first_move = "⭕"
-            bot_char = "❌"
-            bot.send_message(call.message.chat.id, "Игрок выбрал ⭕")
-        if first_move == "❌" or first_move == "⭕":
-            start_game = True
-            bot.send_message(call.message.chat.id, "Игра началась!")
+        for i in range(9):
+            if call.data == str(i):
+                if game_feald[i] == " ":
+                    game_feald[i] = player_move
+                    bot.send_message(call.message.chat.id, "Игрок сделал ход!")
+                    feald[i] = t.InlineKeyboardButton(game_feald[i], callback_data= str(i))
+                    markup.row(feald[0], feald[1], feald[2])
+                    markup.row(feald[3], feald[4], feald[5])
+                    markup.row(feald[6], feald[7], feald[8])
+                    random_num = random.randint(0, 8)      
+                    if game_feald[random_num] == player_move:
+                        random_num = random.randint(0, 8)
+                    if game_feald[random_num] == bot_move:
+                        random_num = random.randint(0, 8)
+                    if game_feald[random_num] == " ":
+                        game_feald[random_num] = bot_move
+                    markup = t.InlineKeyboardMarkup(row_width=3)
+                    feald[i] = t.InlineKeyboardButton(game_feald[i], callback_data= str(i))
+                    markup.row(feald[0], feald[1], feald[2])
+                    markup.row(feald[3], feald[4], feald[5])
+                    markup.row(feald[6], feald[7], feald[8])
+                    bot.send_message(call.message.chat.id, "Поле обновлено", reply_markup=markup)
+                    for i in range(9):
+                        markup = t.InlineKeyboardMarkup(row_width=3)
+                        feald[i] = t.InlineKeyboardButton(game_feald[i], callback_data= str(i))
+                        # if feald[i] == ' ':
+                        #     count -= 1
 
-        
+                    markup.row(feald[0], feald[1], feald[2])
+                    markup.row(feald[3], feald[4], feald[5])
+                    markup.row(feald[6], feald[7], feald[8])
+                    win(game_feald[0], game_feald[1], game_feald[2])
+                    win(game_feald[3], game_feald[4], game_feald[5])
+                    win(game_feald[6], game_feald[7], game_feald[8])
+                    win(game_feald[0], game_feald[3], game_feald[6])
+                    win(game_feald[1], game_feald[4], game_feald[7])
+                    win(game_feald[2], game_feald[5], game_feald[8])
+                    win(game_feald[0], game_feald[4], game_feald[8])
+                    win(game_feald[2], game_feald[4], game_feald[6])
+                    if count == 0:
+                        bot.send_message(call.message.chat.id, "Ничия")
 
-
-        # player manager
-        # for i in range(9):
-        #     if call.data == str(i):
-        #         if game_feald[i] == " ":
-        #             game_feald[i] = first_move
-        #         else:
-        #             bot.send_message(call.message.chat.id, "Выберите другую клутку, клетка занята")
-                # win(game_feald[0], game_feald[1], game_feald[2])
-                # win(game_feald[3], game_feald[4], game_feald[5])
-                # win(game_feald[6], game_feald[7], game_feald[8])
-                # win(game_feald[0], game_feald[3], game_feald[6])
-                # win(game_feald[1], game_feald[4], game_feald[7])
-                # win(game_feald[2], game_feald[5], game_feald[8])
-                # win(game_feald[0], game_feald[4], game_feald[8])
-                # win(game_feald[2], game_feald[4], game_feald[6])
-
-                # lose(game_feald[0], game_feald[1], game_feald[2])
-                # lose(game_feald[0], game_feald[4], game_feald[8])
-                # lose(game_feald[6], game_feald[4], game_feald[2])
-                # lose(game_feald[6], game_feald[7], game_feald[8])
-                # lose(game_feald[0], game_feald[3], game_feald[6])
-                # feald[i] = t.InlineKeyboardButton(game_feald[i], callback_data=str(i))
-                # markup.row(feald[0], feald[1], feald[2])
-                # markup.row(feald[3], feald[4], feald[5])
-                # markup.row(feald[6], feald[7], feald[8])
-                # bot.send_message(call.message.chat.id, "Выбери клетку", reply_markup=markup)
-
-
+                    if winner:
+                        clear_feald()
+                        bot.send_message(call.message.chat.id, "Я проиграл, поздравляю тебя 👍👏")
+                        winner = False
+                        start_game = False
+                        markup = t.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+                        btn_yes = t.KeyboardButton("Да")
+                        btn_no = t.KeyboardButton("Нет")
+                        markup.add(btn_yes, btn_no)
+                        bot.send_message(call.message.chat.id, 'Ещё поиграем? 😂', reply_markup=markup)
                     
+                    else:
+                        bot.send_message(call.message.chat.id, "Выбери клетку", reply_markup=markup)
 
-        # global win
-        # global lose
-        # # lose or win
-  
+                else:
+                    bot.send_message(call.message.chat.id, "Выберите другую клутку, клетка занята")
 
-        
-       
-
-
-
-
-           # random_num = random.randint(0, 8)      
-            # if game_feald[random_num] == first_move:
-            #     random_num = random.randint(0, 8)
-            # if game_feald[random_num] == bot_char:
-            #     random_num = random.randint(0, 8)
-            # if game_feald[random_num] == " ":
-            #     game_feald[random_num] = bot_char
-        # # update cells
-        # global markup
-        # markup.row(feald[0], feald[1], feald[2])
-        # markup.row(feald[3], feald[4], feald[5])
-        # markup.row(feald[6], feald[7], feald[8])
-
-        # bot.send_message(call.message.chat.id, "Выбери клетку", reply_markup=markup)
-        # global start_game
-        # global winner
-        # if winner:
-        #     clear_feald()
-        #     bot.send_message(call.message.chat.id, "Я проиграл :(")
-        #     winner = False
-        #     start_game = False
-        # global losser
-        # if losser:
-        #     clear_feald()
-        #     bot.send_message(call.message.chat.id, "Я выиграл!!")
-        #     losser = False
-        #     start_game = False
 
 
 bot.polling(none_stop=True)

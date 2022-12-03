@@ -44,21 +44,11 @@ def create_array():
     return game_feald
 
 
-def show_field(array):
-    str = '——————\n'
-    for i in range(len(array)):
-        str += '|'
-        for j in range(len(array[i])):
-            str += '  ' + array[i][j] + '  |'
-        str += '\n'
-        str += '——————\n'
-    return str
-        
-    
-
-
 f = create_field()
-s = show_field(f)
-print(s)
+
+if f[0][0] != ' ':
+    print(True)
+else:
+    print(False)
 
 
