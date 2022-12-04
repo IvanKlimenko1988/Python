@@ -113,19 +113,6 @@ def del_all_student():
         cursor.execute("DROP TABLE IF EXISTS students")
 
 
-# def change_class():
-#     db = sq.connect('data.db')
-#     print("Подключение к БД установлено!")
-#     cursor = db.cursor()
-#     cursor.execute(
-#         f"UPDATE students SET class_num = ? WHERE rowid = {name_id[0]}", (temp_class))
-#     print('Данные в БД добавлены.')
-#     name_id.clear()
-#     temp_class.clear()
-#     db.commit()
-#     db.close()
-#     print("Подключение к БД закрыто!")
-
 def change_class():
     db = sq.connect('data.db')
     print("Подключение к БД установлено!")
@@ -139,34 +126,31 @@ def change_class():
     db.close()
     print("Подключение к БД закрыто!")
 
-
 def change_average_grade():
     db = sq.connect('data.db')
     print("Подключение к БД установлено!")
     cursor = db.cursor()
     cursor.execute(
-        f"UPDATE students SET average_grade = ? WHERE rowid = {name_id[0]}", (temp_grage))
+        f"UPDATE students SET average_grade = ? WHERE rowid = {name_id[0]}", (temp_students))
     print('Данные в БД добавлены.')
     name_id.clear()
-    temp_grage.clear()
+    temp_students.clear()
     db.commit()
     db.close()
     print("Подключение к БД закрыто!")
-
 
 def change_phone():
     db = sq.connect('data.db')
     print("Подключение к БД установлено!")
     cursor = db.cursor()
     cursor.execute(
-        f"UPDATE students SET phone_number = ? WHERE rowid = {name_id[0]}", (temp_phone))
+        f"UPDATE students SET phone_number = ? WHERE rowid = {name_id[0]}", (temp_students))
     print('Данные в БД добавлены.')
     name_id.clear()
-    temp_phone.clear()
+    temp_students.clear()
     db.commit()
     db.close()
     print("Подключение к БД закрыто!")
-
 
 def del_student():
     db = sq.connect('data.db')

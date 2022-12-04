@@ -6,8 +6,20 @@ import bd_students as bd
 API_TOKEN = config.token()
 bot = telebot.TeleBot(API_TOKEN)
 
+global grade
+global class_flag
+global phone_num
+global del_student
+grade = False
+class_flag = False
+phone_num = False
+del_student = False
+
 
 def get_data(message):
+    global grade
+    global class_flag
+    global phone_num
     bd.temp_students.append(message.text)
     print(bd.temp_students)
     bot.send_message(message.chat.id, "Запись " + message.text + " добавлена")
@@ -17,15 +29,27 @@ def get_data(message):
         in_markup.row(btn_write_bd)
         bot.send_message(
             message.chat.id, 'Нажмите', reply_markup=in_markup)
-
-    if len(bd.name_id) == 1 and len(bd.temp_students) == 1:
-        print(bd.name_id[0])
-        print(bd.temp_students[0])
+    elif len(bd.name_id) == 1 and len(bd.temp_students) == 1 and grade == True:
         in_markup = t.InlineKeyboardMarkup(row_width=1)
-        btn_write_bd = t.InlineKeyboardButton(text="Записать данные ученика", callback_data='Обновить')
+        btn_write_bd = t.InlineKeyboardButton(text="Обновить оценку", callback_data='Обновить оценку')
         in_markup.row(btn_write_bd)
         bot.send_message(
             message.chat.id, 'Нажмите', reply_markup=in_markup)
+        grade = False
+    elif len(bd.name_id) == 1 and len(bd.temp_students) == 1 and class_flag == True:
+        in_markup = t.InlineKeyboardMarkup(row_width=1)
+        btn_write_bd = t.InlineKeyboardButton(text="Обновить класс", callback_data='Обновить класс')
+        in_markup.row(btn_write_bd)
+        bot.send_message(
+            message.chat.id, 'Нажмите', reply_markup=in_markup)
+        class_flag == False
+    elif len(bd.name_id) == 1 and len(bd.temp_students) == 1 and phone_num == True:
+        in_markup = t.InlineKeyboardMarkup(row_width=1)
+        btn_write_bd = t.InlineKeyboardButton(text="Обновить телефон", callback_data='Обновить телефон')
+        in_markup.row(btn_write_bd)
+        bot.send_message(
+            message.chat.id, 'Нажмите', reply_markup=in_markup)
+        phone_num == False
     else:
         markup = t.ReplyKeyboardMarkup(
         resize_keyboard=True, one_time_keyboard=True)
@@ -33,23 +57,43 @@ def get_data(message):
         markup.add (btn_next)
         bot.send_message(message.chat.id, 'Следующий шаг:', reply_markup=markup)
 
+
 def get_id(message):
+    global del_student
+    global grade
+    global class_flag
+    global phone_num
     bd.name_id.append(message.text)
     print(bd.name_id)
-    if len(bd.name_id) == 1:
+    
+    if len(bd.name_id) == 1 and grade == True:
+        markup = t.ReplyKeyboardMarkup(
+        resize_keyboard=True, one_time_keyboard=True)
+        btn_grade = t.KeyboardButton('Успеваемость')
+        markup.add(btn_grade)
+        bot.send_message(
+        message.chat.id, 'Нажмите кнопку Успеваемость', reply_markup=markup)
+    elif len(bd.name_id) == 1 and class_flag == True:
         markup = t.ReplyKeyboardMarkup(
         resize_keyboard=True, one_time_keyboard=True)
         btn_class = t.KeyboardButton('Класс')
         markup.add(btn_class)
         bot.send_message(
         message.chat.id, 'Нажмите кнопку Класс', reply_markup=markup)
-    if len(bd.name_id) == 1 and len(bd.temp_students) == 1:
-        in_markup = t.InlineKeyboardMarkup(row_width=1)
-        btn_write_bd = t.InlineKeyboardButton(text="Записать данные ученика", callback_data='Обновить')
-        in_markup.row(btn_write_bd)
+    elif len(bd.name_id) == 1 and phone_num == True:
+        markup = t.ReplyKeyboardMarkup(
+        resize_keyboard=True, one_time_keyboard=True)
+        btn_class = t.KeyboardButton('Номер телефона')
+        markup.add(btn_class)
         bot.send_message(
-            message.chat.id, 'Нажмите', reply_markup=in_markup)
-
+        message.chat.id, 'Нажмите кнопку Номер телефона', reply_markup=markup)
+    elif len(bd.name_id) == 1 and del_student == True:
+        in_markup = t.InlineKeyboardMarkup(row_width=1)
+        btn_del_student = t.InlineKeyboardButton(text="Подтвердить удаление", callback_data='stundent_del')
+        in_markup.row(btn_del_student)
+        bot.send_message(
+        message.chat.id, 'Нажмите кнопку Подтвердить удаление', reply_markup=in_markup)
+        del_student = False
 
 
 @bot.message_handler(commands=['start'])
@@ -71,8 +115,8 @@ def choise_func(message):
     btn_show_bd = t.KeyboardButton("Просмотр базы учеников") #Готово
     btn_add_st = t.KeyboardButton("Добавить данные ученика") #Готово
     btn_find_st = t.KeyboardButton("Поиск") #Готово
-    btn_change_data = t.KeyboardButton("Изменение данных")
-    btn_del_data = t.KeyboardButton("Удалить данные")
+    btn_change_data = t.KeyboardButton("Изменение данных") #Готово
+    btn_del_data = t.KeyboardButton("Удалить данные") #Готово
     markup.add (btn_show_bd, btn_add_st,  btn_find_st, btn_change_data, btn_del_data)
     bot.send_message(message.chat.id, 'Меню:', reply_markup=markup)
 
@@ -141,13 +185,15 @@ def menu_choice(message):
             in_markup.row(btn_change_class, btn_change_grade, btn_change_phone)
             bot.send_message(message.chat.id, 'Изменить данные:', reply_markup=in_markup)
         elif message.text == "Удалить данные":
-            bot.send_message(message.chat.id, 'Обращайся ещё, если нужно')
+            in_markup = t.InlineKeyboardMarkup(row_width=1)
+            btn_del = t.InlineKeyboardButton(text="Да", callback_data='del_student')
+            in_markup.row(btn_del)
+            bot.send_message(message.chat.id, 'Удалить ученика?', reply_markup=in_markup)
         elif message.text == 'ID ученика':
-            msg = bot.send_message(message.from_user.id, 'Ввод:')
+            msg = bot.send_message(message.from_user.id, 'Выберите уникальный номер ученика:')
             bot.register_next_step_handler(msg, get_id)
         
      
-
 @bot.callback_query_handler(func=lambda call: True)
 def callbackInline(call):
     if call.message:
@@ -155,46 +201,74 @@ def callbackInline(call):
             bd.add_first_name()
             bot.send_message(call.message.chat.id,
             'Запись в БД прошла успешно!👍👏')
-        if call.data == 'find_first_name':
+        elif call.data == 'find_first_name':
             bot.send_message(call.message.chat.id,
             "Список фамилий:\n" + str(bd.get_first_name()))
-        if call.data == 'find_name':
+        elif call.data == 'find_name':
             bot.send_message(call.message.chat.id,
             "Список имён:\n" + str(bd.get_second_name()))
-        if call.data == 'find_second_name':
+        elif call.data == 'find_second_name':
             bot.send_message(call.message.chat.id,
             "Список отчеств:\n" + str(bd.get_last_name()))
-        if call.data == 'find_class':
+        elif call.data == 'find_class':
             bot.send_message(call.message.chat.id,
             "Список классов:\n" + str(bd.get_class_num()))
-        if call.data == 'find_grade':
+        elif call.data == 'find_grade':
             bot.send_message(call.message.chat.id,
             "Список средних оценок:\n" + str(bd.get_average_grade()))
-        if call.data == 'find_birthday':
+        elif call.data == 'find_birthday':
             bot.send_message(call.message.chat.id,
             "Список дат рождений:\n" + str(bd.get_date_of_birthday()))
-        if call.data == 'find_phone':
+        elif call.data == 'find_phone':
             bot.send_message(call.message.chat.id,
             "Список телефонов:\n" + str(bd.get_phone_number()))
-        if call.data == 'change_class':
+        elif call.data == 'change_class':
+            global class_flag
+            class_flag = True
             markup = t.ReplyKeyboardMarkup(
             resize_keyboard=True, one_time_keyboard=True)
             btn_id_stud = t.KeyboardButton('ID ученика')
             markup.add(btn_id_stud)
-            bot.send_message(call.message.chat.id, 'Следующий шаг', reply_markup=markup)
-        if call.data == 'change_grade':
-            bot.send_message(call.message.chat.id,
-            "Список телефонов:\n" + str(bd.get_phone_number()))
-        if call.data == 'change_phone':
-            bot.send_message(call.message.chat.id,
-            "Список телефонов:\n" + str(bd.get_phone_number()))
-        if call.data == 'Обновить':
+            bot.send_message(call.message.chat.id, 'Нажмите кнопку', reply_markup=markup)
+        elif call.data == 'change_grade':
+            global grade
+            grade = True
+            markup = t.ReplyKeyboardMarkup(
+            resize_keyboard=True, one_time_keyboard=True)
+            btn_id_stud = t.KeyboardButton('ID ученика')
+            markup.add(btn_id_stud)
+            bot.send_message(call.message.chat.id, 'Нажмите кнопку', reply_markup=markup)
+        elif call.data == 'change_phone':
+            global phone_num
+            phone_num = True
+            markup = t.ReplyKeyboardMarkup(
+            resize_keyboard=True, one_time_keyboard=True)
+            btn_id_stud = t.KeyboardButton('ID ученика')
+            markup.add(btn_id_stud)
+            bot.send_message(call.message.chat.id, 'Нажмите кнопку', reply_markup=markup)
+        elif call.data == 'del_student':
+            global del_student
+            del_student = True
+            markup = t.ReplyKeyboardMarkup(
+            resize_keyboard=True, one_time_keyboard=True)
+            btn_id_stud = t.KeyboardButton('ID ученика')
+            markup.add(btn_id_stud)
+            bot.send_message(call.message.chat.id, 'Нажмите кнопку', reply_markup=markup)
+        elif call.data == 'Обновить класс':
             bd.change_class()
             bot.send_message(call.message.chat.id,
             'Запись в БД прошла успешно!👍👏')
-
-        
-            
-
+        elif call.data == 'Обновить оценку':
+            bd.change_average_grade()
+            bot.send_message(call.message.chat.id,
+            'Запись в БД прошла успешно!👍👏')
+        elif call.data == 'Обновить телефон':
+            bd.change_phone()
+            bot.send_message(call.message.chat.id,
+            'Запись в БД прошла успешно!👍👏')
+        elif call.data == 'stundent_del':
+            bd.del_student()
+            bot.send_message(call.message.chat.id,
+            'Удаление из БД прошло успешно!👍👏')
 
 bot.polling(none_stop=True)
