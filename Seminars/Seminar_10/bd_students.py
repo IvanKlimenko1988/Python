@@ -1,6 +1,5 @@
 import sqlite3 as sq
 from tkinter import *
-
 with sq.connect('data.db') as db:
     cursor = db.cursor()
     print("Подключение к БД установлено!")
@@ -16,11 +15,7 @@ with sq.connect('data.db') as db:
 
 
 temp_students = []
-temp_class = []
 name_id = []
-temp_grage = []
-temp_phone = []
-
 
 def add_first_name():
     db = sq.connect('data.db')
@@ -162,3 +157,4 @@ def del_student():
     db.commit()
     db.close()
     print("Подключение к БД закрыто!")
+

@@ -2,7 +2,7 @@ import telebot
 import config
 from telebot import types as t
 import bd_students as bd
-
+import re
 API_TOKEN = config.token()
 bot = telebot.TeleBot(API_TOKEN)
 
@@ -15,6 +15,27 @@ class_flag = False
 phone_num = False
 del_student = False
 
+def show_info(s):
+    s = s.replace('[', '').replace(']', '').replace('(', '').replace(')', '').replace('\'', '').replace(' ', '').replace(',,', ';')
+    new_str = ''
+    for i in range(len(s)-1):
+        new_str +=s[i]
+        if s[i] == ';':
+            new_str+='\n'
+    return new_str
+
+def show_result(str):
+    str = str.replace('[', '').replace(']', '').replace('(', '').replace(')', '').replace('\'', '')
+    new_str = ' '
+    count = 0
+    for i in range(len(str)):
+        if str[i] == ',':
+            count+=1
+        new_str +=str[i]
+        if count == 8:
+            count = 0
+            new_str+='\n'
+    return new_str
 
 def get_data(message):
     global grade
@@ -64,8 +85,6 @@ def get_id(message):
     global class_flag
     global phone_num
     bd.name_id.append(message.text)
-    print(bd.name_id)
-    
     if len(bd.name_id) == 1 and grade == True:
         markup = t.ReplyKeyboardMarkup(
         resize_keyboard=True, one_time_keyboard=True)
@@ -121,12 +140,12 @@ def choise_func(message):
     bot.send_message(message.chat.id, 'Меню:', reply_markup=markup)
 
 
+
 @bot.message_handler(content_types=['text'])
 def menu_choice(message):
-
     if message.chat.type == 'private':
         if message.text == "Просмотр базы учеников":
-            bot.send_message(message.chat.id, str(bd.get_all_student()))
+            bot.send_message(message.chat.id, show_result(str(bd.get_all_student())))
         elif message.text == "Добавить данные ученика":
             markup = t.ReplyKeyboardMarkup(
             resize_keyboard=True, one_time_keyboard=True)
@@ -203,25 +222,25 @@ def callbackInline(call):
             'Запись в БД прошла успешно!👍👏')
         elif call.data == 'find_first_name':
             bot.send_message(call.message.chat.id,
-            "Список фамилий:\n" + str(bd.get_first_name()))
+            "Список фамилий:\n" + show_info(str(bd.get_first_name())))
         elif call.data == 'find_name':
             bot.send_message(call.message.chat.id,
-            "Список имён:\n" + str(bd.get_second_name()))
+            "Список имён:\n" + show_info(str(bd.get_second_name())))
         elif call.data == 'find_second_name':
             bot.send_message(call.message.chat.id,
-            "Список отчеств:\n" + str(bd.get_last_name()))
+            "Список отчеств:\n" + show_info(str(bd.get_last_name())))
         elif call.data == 'find_class':
             bot.send_message(call.message.chat.id,
-            "Список классов:\n" + str(bd.get_class_num()))
+            "Список классов:\n" + show_info(str(bd.get_class_num())))
         elif call.data == 'find_grade':
             bot.send_message(call.message.chat.id,
-            "Список средних оценок:\n" + str(bd.get_average_grade()))
+            "Список средних оценок:\n" + show_info(str(bd.get_average_grade())))
         elif call.data == 'find_birthday':
             bot.send_message(call.message.chat.id,
-            "Список дат рождений:\n" + str(bd.get_date_of_birthday()))
+            "Список дат рождений:\n" + show_info(str(bd.get_date_of_birthday())))
         elif call.data == 'find_phone':
             bot.send_message(call.message.chat.id,
-            "Список телефонов:\n" + str(bd.get_phone_number()))
+            "Список телефонов:\n" + show_info(str(bd.get_phone_number())))
         elif call.data == 'change_class':
             global class_flag
             class_flag = True
@@ -257,18 +276,18 @@ def callbackInline(call):
         elif call.data == 'Обновить класс':
             bd.change_class()
             bot.send_message(call.message.chat.id,
-            'Запись в БД прошла успешно!👍👏')
+            'Запись в БД прошла успешно!👍')
         elif call.data == 'Обновить оценку':
             bd.change_average_grade()
             bot.send_message(call.message.chat.id,
-            'Запись в БД прошла успешно!👍👏')
+            'Запись в БД прошла успешно!👍')
         elif call.data == 'Обновить телефон':
             bd.change_phone()
             bot.send_message(call.message.chat.id,
-            'Запись в БД прошла успешно!👍👏')
+            'Запись в БД прошла успешно!👍')
         elif call.data == 'stundent_del':
             bd.del_student()
             bot.send_message(call.message.chat.id,
-            'Удаление из БД прошло успешно!👍👏')
+            'Удаление из БД прошло успешно!👍')
 
 bot.polling(none_stop=True)
