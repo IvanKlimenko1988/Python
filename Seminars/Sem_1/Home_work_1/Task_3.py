@@ -7,3 +7,24 @@
 
 # 385916 -> yes
 # 123456 -> no
+
+num = int(input("Введите 6-ти значный номер билета: ")) 
+one_half = num // 1000 # 1-я часть 385
+second_half = num - one_half * 1000 # 2-я часть 916
+
+hund_1 = one_half // 100
+dozen_1 = (one_half // 10) - (hund_1 * 10)
+unit_1 = one_half - one_half // 10 * 10
+
+hund_2 = second_half // 100
+dozen_2 = (second_half // 10) - (hund_2 * 10)
+unit_2 = second_half - second_half // 10 * 10
+
+resut_1 = hund_1 + dozen_1 + unit_1
+resut_2 = hund_2 + dozen_2 + unit_2
+
+answer = "no"
+if(resut_1 == resut_2):
+    answer = "yes"
+
+print(f"{num} -> {answer}")
