@@ -7,3 +7,18 @@
 # Пример:
 # 5 -> 1 0 1 1 0
 
+coins = int(input("Введите количесво монет: "))
+print("Введите 1 - орёл, 0 - решка: ")
+count_1 = 0
+count_2 = 0
+for i in range(coins):
+    coin = int(input("Сторона: "))
+    if coin == 1:
+        count_1 += 1
+    else: 
+        count_2 += 1
+    
+if count_1 > count_2:
+    print(f"Необходимо пепевернуть {count_2} монету")
+else:
+    print(f"Необходимо пепевернуть {count_1} монету")
