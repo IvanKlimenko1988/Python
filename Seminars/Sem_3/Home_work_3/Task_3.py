@@ -27,45 +27,20 @@ points_rus = {1: ["А", "В", "Е", "И", "Н", "О", "Р", "С", "Т"],
               8: ["Ш", "Э", "Ю"],
               10: ["Ф", "Щ", "Ъ"]}
 
-word = "notebook".upper()
+word = input("Введите слово: ").upper()
+
 list_char = []
 for i in word:
     list_char.append(i)
 
-print(list_char)
-
-sum=0
+sum = 0
 for i in list_char:
-    for k,v in points_rus.items():
+    for k, v in points_rus.items():
         if i in v:
-            sum+=k
+            sum += k
 
-    for k,v in points_eng.items():
+    for k, v in points_eng.items():
         if i in v:
-            sum+=k
+            sum += k
 
-
-
-# sum = 0
-# for key, value in points_rus.items():
-#     for i in list_char:
-#         if i in value:
-#             sum += key
-#         else:
-#             for key, value in points_eng.items():
-#                 for i in list_char:
-#                     if i in value:
-#                         sum += key
-
-
-
-# if list_char in points_rus.values():
-#     for key, value in points_eng.items():
-#         for i in list_char:
-#             if i in value:
-#                 sum += key
-
-
-    # print(f"{key} {value}")
-
-print(sum)
+print(f"Cтоимость введеного пользователем слова: {sum}")
