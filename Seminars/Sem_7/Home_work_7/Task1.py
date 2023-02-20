@@ -14,4 +14,32 @@
 #
 # Вывод:
 # Парам пам-пам
+def vowel_check(text):
+    list = text.split(' ')
+    vowel_list = ["а", 'я', 'у', 'ю', 'о', 'е', 'ё', 'э', 'и', 'ы']
+    count = 0
+    for i in range(len(list)):
+        list2 = list[i].replace('-', '')
+        for i in range(len(list2)):
+            j = 0
+            flag = True
+            while flag:
+                a = list2[i]
+                if (vowel_list[j] == a):
+                    count += 1
+                    flag = False;
+                else:
+                    j += 1
+                if j == len(vowel_list):
+                    flag = False
+    if (count % 2 == 0):
+        print("Парам пам-пам")
+    else:
+        print("Пам парам")
 
+
+
+
+
+s = "пара-ра-рам рам-пам-папам па-ра-па-да"
+vowel_check(s)
